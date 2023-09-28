@@ -1,5 +1,7 @@
-bokeh react app
+# Bokeh React App
 
+
+## To Start  
 in backend folder run:  
 **FLASK_APP=app flask run**
 
