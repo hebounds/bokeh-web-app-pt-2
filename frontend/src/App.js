@@ -14,8 +14,8 @@ function App() {
   }, [])
 
   return(
-    <div className="App">
-      <header className="App-header">
+    <div className="text-center">
+      <header className="bg-gunmetal min-h-screen flex flex-col justify-center items-center text-xl text-white">
         <div className="text-3xl font-bold text-coral"> TailwindCSS Example Line </div>
 
         <div class="py-8 px-8 max-w-2xl mx-auto my-8 bg-battle-grey1 rounded-xl shadow-lg space-y-2">
