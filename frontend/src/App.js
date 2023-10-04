@@ -8,10 +8,12 @@ function App() {
 
   // On component load send http get request to flask server to retrieve plot1
   useEffect(() => {
-    Axios.get("http://127.0.0.1:5000/plot1").then(resp => 
-    {
-      window.Bokeh.embed.embed_item(resp.data, 'testPlot')
-    })
+    Axios.get("http://127.0.0.1:5000/plot1", {responseType: 'blob'}).then(response => 
+      {
+        let imageNode = document.getElementById('image');
+        let imgUrl = URL.createObjectURL(response.data)
+        imageNode.src = imgUrl
+      })
   }, [])
 
   return(
@@ -22,7 +24,7 @@ function App() {
 
         <div class="py-8 px-8 max-w-2xl mx-auto my-8 bg-battle-grey1 rounded-xl shadow-lg space-y-2">
           <div class="py-3 px-3 max-x-2xl my-1 bg-white rounded-xl shadow-lg space-y-2">
-            <div id='testPlot' className="bk-root"></div>
+            <img id='image' alt=""></img>
           </div>
         </div>        
       </header>

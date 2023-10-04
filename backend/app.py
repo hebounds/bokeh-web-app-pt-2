@@ -1,10 +1,9 @@
-import json
-
-from flask import Flask
+from flask import Flask, send_file
 from flask_cors import CORS, cross_origin
 
 from bokeh.plotting import figure
 from bokeh.embed import json_item
+from bokeh.io import export_png
 
 from numpy import cos, linspace
 
@@ -20,7 +19,5 @@ def plot1():
                      title="Plot 1")
     p.circle(x, y, size=7, color="firebrick", alpha=0.5)
 
-    # following above points: 
-    #  + pass plot object 'p' into json_item
-    #  + wrap the result in json.dumps and return to frontend
-    return json.dumps(json_item(p, "myplot"))
+    export_png(p, filename = "bokeh_plot.png")
+    return send_file("bokeh_plot.png", mimetype='image/png')
