@@ -15,8 +15,7 @@ CORS(app)
 def plot1(): 
     x = linspace(-6, 6, 100)
     y = cos(x)
-    p = figure(width=500, height=500, toolbar_location="below",
-                     title="Plot 1")
+    p = figure(width=500, height=500, toolbar_location=None, title="Plot 1")
     p.circle(x, y, size=7, color="firebrick", alpha=0.5)
 
     export_png(p, filename = "bokeh_plot.png")
