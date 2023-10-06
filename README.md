@@ -15,14 +15,15 @@ alternatively run the start.sh script which will run the flask server and react 
 to make changes to bokeh plot, you must restart the server when changes are made
 
 ## Packages
-Python (pip install [package_name]):
+# Python (pip install [package_name]):
 1. selenium
 2. chromedriver-binary
 3. bokeh
 4. flask
 5. flask_cors
 6. numpy
-JS (npm install [package_name]):
+
+# JS (npm install [package_name]):
 1. axios
 2. @bokeh/bokehjs
 3. react
