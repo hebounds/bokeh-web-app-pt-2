@@ -22,8 +22,8 @@ function App() {
         <div className="text-3xl font-bold text-coral"> TailwindCSS Example Line </div>
         <div className="text-sm text-white"> Example Description of Plot </div>
 
-        <div class="py-8 px-8 max-w-2xl mx-auto my-8 bg-battle-grey1 rounded-xl shadow-lg space-y-2">
-          <div class="py-3 px-3 max-x-2xl my-1 bg-white rounded-xl shadow-lg space-y-2">
+        <div className="py-8 px-8 max-w-2xl mx-auto my-8 bg-battle-grey1 rounded-xl shadow-lg space-y-2">
+          <div className="py-3 px-3 max-x-2xl my-1 bg-white rounded-xl shadow-lg space-y-2">
             <img id='image' alt=""></img>
           </div>
         </div>        

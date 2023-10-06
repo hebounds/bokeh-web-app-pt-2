@@ -1,9 +1,9 @@
 from flask import Flask, send_file
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 
 from bokeh.plotting import figure
 from bokeh.embed import json_item
-from bokeh.io import export_png
+from bokeh.io import export_png, export_svgs
 
 from numpy import cos, linspace
 
@@ -20,3 +20,5 @@ def plot1():
 
     export_png(p, filename = "bokeh_plot.png")
     return send_file("bokeh_plot.png", mimetype='image/png')
+    # export_svgs(p, filename = "bokeh_plot.svg")
+    # return send_file("bokeh_plot.svg", mimetype='image/svg+xml')
