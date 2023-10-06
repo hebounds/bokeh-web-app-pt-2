@@ -10,3 +10,20 @@ in frontend folder run command:
 
 alternatively run the start.sh script which will run the flask server and react frontend and print debug from both to terminal:  
 **sh start.sh**
+
+## Notes
+to make changes to bokeh plot, you must restart the server when changes are made
+
+## Packages
+### Python (pip install [package_name]):
+1. bokeh
+2. flask
+3. flask_cors
+4. numpy
+
+### JS (npm install [package_name]):
+1. axios
+2. @bokeh/bokehjs
+3. react
+4. react-scripts
+5. react-dom
