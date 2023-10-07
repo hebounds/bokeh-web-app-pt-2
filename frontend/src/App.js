@@ -2,8 +2,6 @@ import './App.css';
 import React, { useEffect } from 'react';
 import Axios from 'axios';
 
-// Use window.Bokeh due to Bokeh import issues
-
 function App() {
 
   // On component load send http get request to flask server to retrieve plot1
