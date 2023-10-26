@@ -7,18 +7,30 @@ from bokeh.io import export_png, export_svgs
 
 from numpy import cos, linspace
 
+import time
+import datetime
+
+# If true writes graph generation timing to "timings.txt"
+timingBool = True
+
 app = Flask(__name__)
 # CORS enabled so react frontend can pull data from python backend
 CORS(app)
 
 @app.route('/plot1', methods=["GET"])
 def plot1(): 
+    time1 = time.perf_counter() 
     x = linspace(-6, 6, 100)
     y = cos(x)
     p = figure(width=500, height=500, toolbar_location=None, title="Plot 1")
     p.circle(x, y, size=7, color="firebrick", alpha=0.5)
 
     export_png(p, filename = "bokeh_plot.png")
+    time2 = time.perf_counter()
+    if (timingBool):
+        with open('timings.txt', 'a') as timings:
+            curTime = datetime.datetime.now()
+            timings.write(curTime.strftime("%m/%d/%Y, %H:%M:%S") + ": " + str(time2 - time1) + "s\n")
     return send_file("bokeh_plot.png", mimetype='image/png')
     # export_svgs(p, filename = "bokeh_plot.svg")
     # return send_file("bokeh_plot.svg", mimetype='image/svg+xml')
