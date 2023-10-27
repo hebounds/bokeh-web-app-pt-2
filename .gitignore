@@ -11,6 +11,7 @@
 # production
 /frontend/build
 *.png
+*.csv
 
 # misc
 .DS_Store
