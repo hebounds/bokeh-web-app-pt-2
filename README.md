@@ -22,10 +22,10 @@ to make changes to bokeh plot, you must restart the server when changes are made
 4. flask
 5. flask_cors
 6. numpy
+7. pandas
 
 ### JS (npm install [package_name]):
 1. axios
-2. @bokeh/bokehjs
-3. react
-4. react-scripts
-5. react-dom
+2. react
+3. react-scripts
+4. react-dom
