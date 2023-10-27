@@ -1,29 +1,14 @@
 import numpy as np
 
 def month_overflow(month: int, day: int):
-    if (month == 1 and day == 31):
-      return True
-    if (month == 2 and day == 28):
-      return True
-    if (month == 3 and day == 31):
-      return True
-    if (month == 4 and day == 30):
-      return True
-    if (month == 5 and day == 31):
-      return True
-    if (month == 6 and day == 30):
-      return True
-    if (month == 7 and day == 31):
-      return True
-    if (month == 8 and day == 31):
-      return True
-    if (month == 9 and day == 30):
-      return True
-    if (month == 10 and day == 31):
-      return True
-    if (month == 11 and day == 30):
-      return True
-    if (month == 12 and day == 31):
+    if (day == 31):
+      if (month == 1 or month == 3 or month == 5 or month == 7
+          or month == 8 or month == 10 or month == 12):
+        return True
+    elif (day == 30):
+      if (month == 4 or month == 6 or month == 9 or month == 11):
+        return True
+    elif (day == 28 and month == 2):
       return True
     return False
 
