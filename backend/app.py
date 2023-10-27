@@ -4,8 +4,10 @@ from flask_cors import CORS
 from bokeh.plotting import figure
 from bokeh.embed import json_item
 from bokeh.io import export_png, export_svgs
+from bokeh.models import ColumnDataSource
 
-from numpy import cos, linspace
+import numpy as np
+import pandas as pd
 
 import time
 import datetime
@@ -20,10 +22,17 @@ CORS(app)
 @app.route('/plot1', methods=["GET"])
 def plot1(): 
     time1 = time.perf_counter() 
-    x = linspace(-6, 6, 100)
-    y = cos(x)
-    p = figure(width=500, height=500, toolbar_location=None, title="Plot 1")
-    p.circle(x, y, size=7, color="firebrick", alpha=0.5)
+    df = pd.read_csv('data.csv')
+
+    dates = np.array(df['Date'], dtype=np.datetime64)
+    source = ColumnDataSource(data=dict(date=dates, close=df['Value']))
+
+    p = figure(height=300, width=800, tools="xpan", toolbar_location=None,
+        x_axis_type="datetime", x_axis_location="below",
+        background_fill_color="#efefef")
+
+    p.line('date', 'close', source=source)
+    p.yaxis.axis_label = 'Value'
 
     export_png(p, filename = "bokeh_plot.png")
     time2 = time.perf_counter()
