@@ -12,6 +12,7 @@
 /frontend/build
 *.png
 /backend/data.csv
+/backend/timings.txt
 
 # misc
 .DS_Store
