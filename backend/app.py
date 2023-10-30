@@ -25,13 +25,14 @@ def plot1():
     df = pd.read_csv('data.csv')
 
     dates = np.array(df['Date'], dtype=np.datetime64)
-    source = ColumnDataSource(data=dict(date=dates, close=df['Value']))
+    source = ColumnDataSource(data=dict(date=dates, close=df['Channel1']))
 
     p = figure(height=300, width=800, tools="xpan", toolbar_location=None,
         x_axis_type="datetime", x_axis_location="below",
         background_fill_color="#efefef")
 
-    p.line('date', 'close', source=source)
+    # p.line('date', 'close', source=source)
+    p.circle('date', 'close', source=source, fill_color="white", size=8)
     p.yaxis.axis_label = 'Value'
 
     export_png(p, filename = "bokeh_plot.png")
@@ -39,7 +40,7 @@ def plot1():
     if (timingBool):
         with open('timings.txt', 'a') as timings:
             curTime = datetime.datetime.now()
-            timings.write(curTime.strftime("%m/%d/%Y, %H:%M:%S") + ": " + str(time2 - time1) + "s\n")
+            timings.write(curTime.strftime("%m/%d/%Y %H:%M:%S") + "," + str(time2 - time1) + "s\n")
     return send_file("bokeh_plot.png", mimetype='image/png')
     # export_svgs(p, filename = "bokeh_plot.svg")
     # return send_file("bokeh_plot.svg", mimetype='image/svg+xml')
