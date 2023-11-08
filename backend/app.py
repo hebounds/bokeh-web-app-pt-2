@@ -38,9 +38,9 @@ def plot1():
     export_png(p, filename = "bokeh_plot.png")
     time2 = time.perf_counter()
     if (timingBool):
-        with open('timings.txt', 'a') as timings:
+        with open('timings.csv', 'a') as timings:
             curTime = datetime.datetime.now()
-            timings.write(curTime.strftime("%m/%d/%Y %H:%M:%S") + "," + str(time2 - time1) + "s\n")
+            timings.write(curTime.strftime("%m/%d/%Y %H:%M:%S") + "," + str(time2 - time1) + "\n")
     return send_file("bokeh_plot.png", mimetype='image/png')
     # export_svgs(p, filename = "bokeh_plot.svg")
     # return send_file("bokeh_plot.svg", mimetype='image/svg+xml')

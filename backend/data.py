@@ -30,7 +30,10 @@ def synthetic_data_generation(samples: int, time: int, channels: int, start: dat
 
 
 t = datetime.time(0, 0, 0)
-synthetic_data_generation(10, 60, 10, t)
+hours = 1
+minutes = int(hours * 60)
+seconds = int(minutes * 60)
+synthetic_data_generation(10, seconds, 10, t)
 
 # Time Series Year Data Generation
 """def month_overflow(month: int, day: int):
