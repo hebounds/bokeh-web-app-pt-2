@@ -30,7 +30,7 @@ def synthetic_data_generation(samples: int, time: int, channels: int, start: dat
 
 
 t = datetime.time(0, 0, 0)
-hours = 1
+hours = 3
 minutes = int(hours * 60)
 seconds = int(minutes * 60)
 synthetic_data_generation(10, seconds, 10, t)
