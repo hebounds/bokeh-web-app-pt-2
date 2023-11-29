@@ -10,21 +10,54 @@ function App() {
 
   const channels = ['Channel1', 'Channel2', 'Channel3'];
 
-  const [selectedOption, setSelectedOption] = useState("Channel1");
+  const [selectedChannel, setSelectedChannel] = useState("Channel1");
+
+  const [isError, setIsError] = useState("false");
+
+  const handleChangeIsError = (newValue) => {
+    setIsError(newValue);
+  };
 
   const handleDropdownChangeChannel = (newChannel) => {
-    setSelectedOption(newChannel);
+    setSelectedChannel(newChannel);
   };
+
+  function ErrorNotif(props) {
+    const isError = props.isError;
+    console.log(isError);
+    if (isError === true) {
+      return (
+        <div className="flex flex-col justify-center items-center" id="notif_error">
+          <div className="rounded-xl bg-red-400 p-2 border-2 ring-red-500 border-red-500 block">Stop time must be below 24 hours!</div>
+        </div>
+      );
+    }
+    return (
+      <div></div>
+    );
+  }
 
   const Generate = ({properties}) => {
 
     const handleClick = async() => {
       let lowerBound = document.getElementById('lower_bound');
       let upperBound = document.getElementById('upper_bound');
+      
       let start = lowerBound.value || 0;
-      let stop = upperBound.value;
+      let stop = upperBound.value || 0;
+
+      if (start > 24) {
+        handleChangeIsError(true);
+        return;
+      }
+      if (stop > 24) {
+        handleChangeIsError(true);
+        return;
+      }
+      handleChangeIsError(false);
+
       const params = {
-        channel: selectedOption,
+        channel: selectedChannel,
         start: start,
         stop: stop,
       };
@@ -52,7 +85,8 @@ function App() {
         <div className="text-3xl font-bold text-blue-400"> TailwindCSS Example Line </div>
         <div className="text-sm text-white"> Example Description of Plot </div>
 
-        <div className="py-8 px-8 max-w-2xl mx-auto my-8 bg-battle-grey1 rounded-xl shadow-lg space-y-2">
+        <div className="pb-8 pt-4 px-8 max-w-2xl mx-auto my-8 bg-battle-grey1 rounded-xl shadow-lg space-y-2">
+          <ErrorNotif isError={isError}></ErrorNotif>
           <div className="flex flex-row justify-left items-left">
             <div className="px-2 text-center">
               <p>Channel:</p>
