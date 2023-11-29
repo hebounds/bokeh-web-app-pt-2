@@ -19,11 +19,15 @@ function App() {
   const Generate = ({properties}) => {
 
     const handleClick = async() => {
+      let lowerBound = document.getElementById('lower_bound');
+      let upperBound = document.getElementById('upper_bound');
+      let start = lowerBound.value || 0;
+      let stop = upperBound.value;
       const params = {
         channel: selectedOption,
+        start: start,
+        stop: stop,
       };
-
-      console.log(params);
 
       Axios.get("http://127.0.0.1:5000/plot1", { 
         params: params, 
@@ -32,9 +36,9 @@ function App() {
       }).then(response => 
       {
         let imageNode = document.getElementById('image');
-        let imgUrl = URL.createObjectURL(response.data)
-        imageNode.src = imgUrl
-      })
+        let imgUrl = URL.createObjectURL(response.data);
+        imageNode.src = imgUrl;
+      });
     }
   
     return <div>
@@ -55,8 +59,12 @@ function App() {
               <Dropdown options={channels} onChange={handleDropdownChangeChannel} properties="rounded-md text-gunmetal"/>
             </div>
             <div className="px-2 text-center">
-              <label>Lower Bound:</label>
-              <input type="number" id="first_name" className="bg-white border border-white text-black text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block p-0.5" placeholder="0" required></input>
+              <label>Start Time:</label>
+              <input type="number" id="lower_bound" className="bg-white border border-white text-black text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block p-0.5" placeholder="0" required></input>
+            </div>
+            <div className="px-2 text-center">
+              <label>Stop Time:</label>
+              <input type="number" id="upper_bound" className="bg-white border border-white text-black text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block p-0.5" placeholder="0" required></input>
             </div>
             <div className="flex-grow"></div>
             <div className="px-2 text-center">
