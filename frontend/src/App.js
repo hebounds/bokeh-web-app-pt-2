@@ -24,7 +24,6 @@ function App() {
 
   function ErrorNotif(props) {
     const isError = props.isError;
-    console.log(isError);
     if (isError === true) {
       return (
         <div className="flex flex-col justify-center items-center" id="notif_error">
