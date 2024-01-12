@@ -14,6 +14,8 @@ import datetime
 # If true writes graph generation timing to "timings.txt"
 timingBool = True
 
+df = pd.read_csv('data.csv')
+
 app = Flask(__name__)
 app.config.CORS_HEADERS = 'Content-Type, Authorization, Origin' 
 app.config.CORS_METHODS = 'GET, HEAD, POST, PATCH, DELETE, OPTIONS' 
@@ -23,7 +25,6 @@ CORS(app, supports_credentials=True)
 @app.route('/plot1', methods=["GET"])
 def plot1(): 
     time1 = time.perf_counter() 
-    df = pd.read_csv('data.csv')
 
     channel = request.args.get('channel', default='Channel1')
     start = request.args.get('start', default='0')
@@ -56,3 +57,12 @@ def plot1():
 
     # export_svgs(p, filename = "bokeh_plot.svg")
     # return send_file("bokeh_plot.svg", mimetype='image/svg+xml')
+
+@app.route('/channels', methods=["GET"])
+def channels():
+    channels = df.columns
+    channels = channels[1:-1]
+    channels_str = ""
+    for i in channels:
+        channels_str += "," + i
+    return channels_str[1:]

@@ -1,15 +1,31 @@
 import React, { Component } from 'react';
 
+import Axios from 'axios';
+
 class Dropdown extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      selectedOption: props.options[0], // Set the default selected option
-      properties: props.properties
+      options: [],
+      selectedOption: "", // Set the default selected option
+      properties: props.properties,
     };
 
     this.handleSelectChange = this.handleSelectChange.bind(this);
+  }
+
+  componentDidMount() {
+    let apiPath = "http://127.0.0.1:5000/" + this.props.route;
+    Axios.get(apiPath, { 
+      responseType: "text",
+      withCredentials: true
+    }).then(response => 
+    {
+      this.setState({
+        options: response.data.split(","),
+      });
+    });
   }
 
   handleSelectChange(event) {
@@ -23,8 +39,7 @@ class Dropdown extends Component {
   }
 
   render() {
-    const { options } = this.props;
-    const { selectedOption, properties } = this.state;
+    const { options, selectedOption, properties } = this.state;
 
     return (
       <div>

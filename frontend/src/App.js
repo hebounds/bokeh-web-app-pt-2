@@ -8,18 +8,16 @@ import Axios from 'axios';
 
 function App() {
 
-  const channels = ['Channel1', 'Channel2', 'Channel3'];
-
   const [selectedChannel, setSelectedChannel] = useState("Channel1");
+
+  const handleDropdownChangeChannel = (newChannel) => {
+    setSelectedChannel(newChannel);
+  };
 
   const [isError, setIsError] = useState("false");
 
   const handleChangeIsError = (newValue) => {
     setIsError(newValue);
-  };
-
-  const handleDropdownChangeChannel = (newChannel) => {
-    setSelectedChannel(newChannel);
   };
 
   function ErrorNotif(props) {
@@ -89,7 +87,7 @@ function App() {
           <div className="flex flex-row justify-left items-left">
             <div className="px-2 text-center">
               <p>Channel:</p>
-              <Dropdown options={channels} onChange={handleDropdownChangeChannel} properties="rounded-md text-gunmetal"/>
+              <Dropdown route="channels" onChange={handleDropdownChangeChannel} properties="rounded-md text-gunmetal"/>
             </div>
             <div className="px-2 text-center">
               <label>Start Time:</label>
