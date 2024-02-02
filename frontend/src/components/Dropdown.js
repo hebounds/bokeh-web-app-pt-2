@@ -15,17 +15,41 @@ class Dropdown extends Component {
     this.handleSelectChange = this.handleSelectChange.bind(this);
   }
 
-  componentDidMount() {
+  makeRequest(dataSource = null) {
     let apiPath = "http://127.0.0.1:5000/" + this.props.route;
-    Axios.get(apiPath, { 
+
+    const params = dataSource ? { dataSource: dataSource } : null;
+
+    Axios.get(apiPath, {
+      params: params,
       responseType: "text",
-      withCredentials: true
-    }).then(response => 
-    {
+      withCredentials: true,
+    }).then((response) => {
+      const selectedOption = response.data.split(",")[0]
       this.setState({
         options: response.data.split(","),
+        selectedOption: selectedOption,
       });
+      if (this.props.onChange) {
+        this.props.onChange(selectedOption);
+      }
     });
+  }
+
+  componentDidMount() {
+    if (this.props.loadCondition == null) {
+      this.makeRequest();
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    console.log(prevProps.loadCondition);
+    console.log(this.props.loadCondition);
+    console.log(this.state.selectedOption);
+    console.log(this.state.options);
+    if (this.props.loadCondition !== null && (prevProps.loadCondition !== this.props.loadCondition)) {
+      this.makeRequest(this.props.loadCondition);
+    }
   }
 
   handleSelectChange(event) {
@@ -38,9 +62,10 @@ class Dropdown extends Component {
     }
   }
 
+  
   render() {
     const { options, selectedOption, properties } = this.state;
-
+    
     return (
       <div>
         <select
@@ -55,6 +80,7 @@ class Dropdown extends Component {
             </option>
           ))}
         </select>
+      
       </div>
     );
   }

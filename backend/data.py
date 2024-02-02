@@ -1,8 +1,8 @@
 import numpy as np
 import datetime
 
-def synthetic_data_generation(samples: int, time: int, channels: int, start: datetime.time): 
-    f = open("data.csv", "w")
+def synthetic_data_generation(samples: int, time: int, channels: int, start: datetime.time, fileName): 
+    f = open("dataSources/" + fileName + ".csv", "w")
     hour = start.hour
     minute = start.minute
     second = start.second
@@ -34,7 +34,9 @@ t = datetime.time(0, 0, 0)
 hours = 3
 minutes = int(hours * 60)
 seconds = int(minutes * 60)
-synthetic_data_generation(samples, seconds, channels, t)
+today = datetime.datetime.today()
+synthetic_data_generation(samples, seconds, channels, t, today.strftime('%Y-%m-%d'))
+
 
 # Time Series Year Data Generation
 """def month_overflow(month: int, day: int):

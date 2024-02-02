@@ -14,6 +14,13 @@ function App() {
     setSelectedChannel(newChannel);
   };
 
+  const [dataSource, setDataSource] = useState("");
+
+  const handleDropdownChangeDataSource = (newDataSource) => {
+    setDataSource(newDataSource);
+    console.log(newDataSource);
+  };
+
   const [isError, setIsError] = useState("false");
 
   const handleChangeIsError = (newValue) => {
@@ -57,6 +64,7 @@ function App() {
         channel: selectedChannel,
         start: start,
         stop: stop,
+        dataSource: dataSource,
       };
 
       Axios.get("http://127.0.0.1:5000/plot1", { 
@@ -82,12 +90,16 @@ function App() {
         <div className="text-3xl font-bold text-blue-400"> TailwindCSS Example Line </div>
         <div className="text-sm text-white"> Example Description of Plot </div>
 
-        <div className="pb-8 pt-4 px-8 max-w-2xl mx-auto my-8 bg-battle-grey1 rounded-xl shadow-lg space-y-2">
+        <div className="pb-8 pt-4 px-8 mx-auto my-8 bg-battle-grey1 rounded-xl shadow-lg space-y-2">
           <ErrorNotif isError={isError}></ErrorNotif>
           <div className="flex flex-row justify-left items-left">
             <div className="px-2 text-center">
+              <p>Data Source:</p>
+              <Dropdown route="dataSources" onChange={handleDropdownChangeDataSource} loadCondition={null} properties="rounded-md text-gunmetal"/>
+            </div>
+            <div className="px-2 text-center">
               <p>Channel:</p>
-              <Dropdown route="channels" onChange={handleDropdownChangeChannel} properties="rounded-md text-gunmetal"/>
+              <Dropdown route="channels" onChange={handleDropdownChangeChannel} loadCondition={dataSource} properties="rounded-md text-gunmetal"/>
             </div>
             <div className="px-2 text-center">
               <label>Start Time:</label>
