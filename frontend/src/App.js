@@ -8,17 +8,22 @@ import Axios from 'axios';
 
 function App() {
 
+  const [selectedDataSource, setDataSource] = useState("");
+
+  const handleDropdownChangeDataSource = (newDataSource) => {
+    setDataSource(newDataSource);
+  };
+
+  const [selectedRecording, setSelectedRecording] = useState("recording1");
+
+  const handleDropdownChangeRecording = (newRecording) => {
+    setSelectedRecording(newRecording);
+  };
+
   const [selectedChannel, setSelectedChannel] = useState("Channel1");
 
   const handleDropdownChangeChannel = (newChannel) => {
     setSelectedChannel(newChannel);
-  };
-
-  const [dataSource, setDataSource] = useState("");
-
-  const handleDropdownChangeDataSource = (newDataSource) => {
-    setDataSource(newDataSource);
-    console.log(newDataSource);
   };
 
   const [isError, setIsError] = useState("false");
@@ -64,7 +69,8 @@ function App() {
         channel: selectedChannel,
         start: start,
         stop: stop,
-        dataSource: dataSource,
+        dataSource: selectedDataSource,
+        recording: selectedRecording,
       };
 
       Axios.get("http://127.0.0.1:5000/plot1", { 
@@ -95,11 +101,15 @@ function App() {
           <div className="flex flex-row justify-left items-left">
             <div className="px-2 text-center">
               <p>Data Source:</p>
-              <Dropdown route="dataSources" onChange={handleDropdownChangeDataSource} loadCondition={null} properties="rounded-md text-gunmetal"/>
+              <Dropdown route="dataSources" onChange={handleDropdownChangeDataSource} loadCondition={[null, null]} properties="rounded-md text-gunmetal"/>
+            </div>
+            <div className="px-2 text-center">
+              <p>Recording:</p>
+              <Dropdown route="recordings" onChange={handleDropdownChangeRecording} loadCondition={[selectedDataSource, null]} properties="rounded-md text-gunmetal"/>
             </div>
             <div className="px-2 text-center">
               <p>Channel:</p>
-              <Dropdown route="channels" onChange={handleDropdownChangeChannel} loadCondition={dataSource} properties="rounded-md text-gunmetal"/>
+              <Dropdown route="channels" onChange={handleDropdownChangeChannel} loadCondition={[selectedDataSource, selectedRecording]} properties="rounded-md text-gunmetal"/>
             </div>
             <div className="px-2 text-center">
               <label>Start Time:</label>

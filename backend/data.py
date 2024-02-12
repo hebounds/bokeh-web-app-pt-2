@@ -1,7 +1,67 @@
 import numpy as np
 import datetime
+import random
+import os
+import shutil
 
-def synthetic_data_generation(samples: int, time: int, channels: int, start: datetime.time, fileName): 
+def synthetic_data_generation(dataSources: int, samples: int, time: int, channels: int, start: datetime.time): 
+    
+    #Clear the existing dataSources
+    dirs = os.listdir(".")
+    for directory in dirs:
+      if "dataSource" in directory:
+        shutil.rmtree(directory)
+
+    #Create the dataSource folders
+    for d in range(dataSources):
+      try:
+        os.makedirs("dataSources/dataSource" + str(d + 1))
+      except OSError as error:
+        print(error)
+
+      #Create the recordings files
+      recs = random.randint(3,8)
+      for r in range(recs):
+        f = open("dataSources/dataSource" + str(d + 1) + "/recording" + str(r + 1) + ".csv", "w")
+    
+        hour = start.hour
+        minute = start.minute
+        second = start.second
+        today = datetime.date.today()
+
+        f.writelines("Date,")
+        for i in range(channels):
+          f.writelines("Channel" + str(i + 1) + ",")
+        f.writelines("\n")
+        for i in range(time):
+          for j in range(samples):
+            temp = np.array2string(np.random.rand(channels), separator = ',', max_line_width=1000)
+            temp = temp.replace(" ", "")
+            newTime = datetime.time(hour, minute, second)
+            f.writelines(str(today) + " " + str(newTime) + "," + temp[1:len(temp)-1] + "\n")
+          second += 1
+          if (second == 60):
+            minute += 1
+            second = 0
+          if (minute == 60):
+            hour += 1
+            minute = 0
+            
+        f.close()
+
+ds = 3
+samples = 10
+channels = 10
+t = datetime.time(0, 0, 0)
+hours = 3
+minutes = int(hours * 60)
+seconds = int(minutes * 60)
+
+synthetic_data_generation(ds, samples, seconds, channels, t)
+
+
+# Single data source data generation
+"""def synthetic_data_generation(samples: int, time: int, channels: int, start: datetime.time, fileName): 
     f = open("dataSources/" + fileName + ".csv", "w")
     hour = start.hour
     minute = start.minute
@@ -35,8 +95,7 @@ hours = 3
 minutes = int(hours * 60)
 seconds = int(minutes * 60)
 today = datetime.datetime.today()
-synthetic_data_generation(samples, seconds, channels, t, today.strftime('%Y-%m-%d'))
-
+synthetic_data_generation(samples, seconds, channels, t, today.strftime('%Y-%m-%d'))"""
 
 # Time Series Year Data Generation
 """def month_overflow(month: int, day: int):

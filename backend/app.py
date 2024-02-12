@@ -25,7 +25,7 @@ CORS(app, supports_credentials=True)
 def plot1(): 
     time1 = time.perf_counter() 
 
-    df = pd.read_csv("dataSources/" + request.args.get('dataSource') + ".csv")
+    df = pd.read_csv("dataSources/" + request.args.get('dataSource') + "/" + request.args.get('recording') + ".csv")
 
     channel = request.args.get('channel', default='Channel1')
     start = request.args.get('start', default='0')
@@ -59,17 +59,6 @@ def plot1():
     # export_svgs(p, filename = "bokeh_plot.svg")
     # return send_file("bokeh_plot.svg", mimetype='image/svg+xml')
 
-@app.route('/channels', methods=["GET"])
-def channels():
-    df = pd.read_csv("dataSources/" + request.args.get('dataSource') + ".csv")
-
-    channels = df.columns
-    channels = channels[1:-1]
-    channels_str = ""
-    for i in channels:
-        channels_str += "," + i
-    return channels_str[1:]
-
 @app.route('/dataSources', methods=["GET"])
 def dataSources():
     directory = "dataSources/"
@@ -78,3 +67,23 @@ def dataSources():
     for i in fileNames:
         fileNames_str += "," + i.split(".")[0]
     return fileNames_str[1:]
+
+@app.route('/recordings', methods=["GET"])
+def recordings():
+    directory = "dataSources/" + request.args.get('dataSource') + "/"
+    fileNames = sorted(os.listdir(directory))
+    fileNames_str = ""
+    for i in fileNames:
+        fileNames_str += "," + i.split(".")[0]
+    return fileNames_str[1:]
+
+@app.route('/channels', methods=["GET"])
+def channels():
+    df = pd.read_csv("dataSources/" + request.args.get('dataSource') + "/" + request.args.get('recording') + ".csv")
+
+    channels = df.columns
+    channels = channels[1:-1]
+    channels_str = ""
+    for i in channels:
+        channels_str += "," + i
+    return channels_str[1:]

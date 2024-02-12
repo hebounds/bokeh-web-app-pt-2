@@ -15,10 +15,17 @@ class Dropdown extends Component {
     this.handleSelectChange = this.handleSelectChange.bind(this);
   }
 
-  makeRequest(dataSource = null) {
+  makeRequest(loadConditions = [null, null]) {
     let apiPath = "http://127.0.0.1:5000/" + this.props.route;
 
-    const params = dataSource ? { dataSource: dataSource } : null;
+    let params = null;
+ 
+    if (loadConditions[0] !== null && loadConditions[1] === null) {
+      params = { dataSource: loadConditions[0], recording: null };
+    }
+    else if (loadConditions[0] !== null && loadConditions[1] !== null) {
+      params = { dataSource: loadConditions[0], recording: loadConditions[1] };
+    } 
 
     Axios.get(apiPath, {
       params: params,
@@ -37,17 +44,15 @@ class Dropdown extends Component {
   }
 
   componentDidMount() {
-    if (this.props.loadCondition == null) {
+    if (this.props.loadCondition[0] == null && this.props.loadCondition[1] == null) {
       this.makeRequest();
     }
   }
 
   componentDidUpdate(prevProps) {
-    console.log(prevProps.loadCondition);
-    console.log(this.props.loadCondition);
-    console.log(this.state.selectedOption);
-    console.log(this.state.options);
-    if (this.props.loadCondition !== null && (prevProps.loadCondition !== this.props.loadCondition)) {
+    if (this.props.loadCondition[0] !== null &&
+        ((prevProps.loadCondition[0] !== this.props.loadCondition[0]) 
+          || (prevProps.loadCondition[1] !== this.props.loadCondition[1]))) {
       this.makeRequest(this.props.loadCondition);
     }
   }
