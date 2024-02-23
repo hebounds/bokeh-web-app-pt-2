@@ -28,14 +28,60 @@ def plot1():
     df = pd.read_csv("dataSources/" + request.args.get('dataSource') + "/" + request.args.get('recording') + ".csv")
 
     channel = request.args.get('channel', default='Channel1')
-    start = request.args.get('start', default='0')
-    stop = request.args.get('stop', default='1')
-    start_delta = datetime.timedelta(seconds=float(start)*3600)
-    stop_delta = datetime.timedelta(seconds=float(stop)*3600)
-    today = datetime.datetime.today();
-    today = today.replace(hour=0, minute=0, second=0, microsecond=0)
-    start_datetime = today + start_delta
-    stop_datetime = today + stop_delta
+
+    # Get current date and time
+    now = datetime.datetime.now()
+    yesterday = now - datetime.timedelta(seconds=86400)
+
+    # Format date and time
+    formatted_date_time_now = now.strftime("%Y-%m-%dT%H:%M")
+    formatted_date_time_yesterday = yesterday.strftime("%Y-%m-%dT%H:%M")
+
+    # Fetch start and stop arguments, with default of yesterday and today at current time
+    start = request.args.get('start', default=formatted_date_time_yesterday)
+    stop = request.args.get('stop', default=formatted_date_time_now)
+
+    if (start == ""):
+        start = formatted_date_time_yesterday
+    if (stop == ""):
+        stop = formatted_date_time_now
+
+    start_tokens = start.split("-") + start.split("T")[1].split(":")
+    stop_tokens = stop.split("-") + stop.split("T")[1].split(":")
+
+    start_year = start_tokens[0]
+    start_month = start_tokens[1]
+    start_day = start_tokens[2].split("T")[0]
+    start_hour = start_tokens[3]
+    start_minute = start_tokens[4]
+
+    stop_year = stop_tokens[0]
+    stop_month = stop_tokens[1]
+    stop_day = stop_tokens[2].split("T")[0]
+    stop_hour = stop_tokens[3]
+    stop_minute = stop_tokens[4]
+
+    start_datetime = datetime.datetime(
+        year=int(start_year),
+        month=int(start_month),
+        day=int(start_day),
+        hour=int(start_hour),
+        minute=int(start_minute)
+    )
+    stop_datetime = datetime.datetime(
+        year=int(stop_year),
+        month=int(stop_month),
+        day=int(stop_day),
+        hour=int(stop_hour),
+        minute=int(stop_minute)
+    )
+
+    # if start_datetime == stop_datetime:
+    #     current_minute = stop_datetime.minute
+    #     current_minute += 1
+    #     stop_datetime.replace(minute=current_minute)
+
+    # print(stop_datetime.minute)
 
     dates = np.array(df['Date'], dtype=np.datetime64)
     source = ColumnDataSource(data=dict(date=dates, close=df[channel]))
@@ -55,9 +101,6 @@ def plot1():
             timings.write(curTime.strftime("%m/%d/%Y %H:%M:%S") + "," + str(time2 - time1) + "\n")
 
     return send_file("bokeh_plot.png", mimetype='image/png')
-
-    # export_svgs(p, filename = "bokeh_plot.svg")
-    # return send_file("bokeh_plot.svg", mimetype='image/svg+xml')
 
 @app.route('/dataSources', methods=["GET"])
 def dataSources():

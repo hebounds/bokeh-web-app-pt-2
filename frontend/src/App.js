@@ -26,44 +26,14 @@ function App() {
     setSelectedChannel(newChannel);
   };
 
-  const [isError, setIsError] = useState("false");
-
-  const handleChangeIsError = (newValue) => {
-    setIsError(newValue);
-  };
-
-  function ErrorNotif(props) {
-    const isError = props.isError;
-    if (isError === true) {
-      return (
-        <div className="flex flex-col justify-center items-center" id="notif_error">
-          <div className="rounded-xl bg-red-400 p-2 border-2 ring-red-500 border-red-500 block">Stop time must be below 24 hours!</div>
-        </div>
-      );
-    }
-    return (
-      <div></div>
-    );
-  }
-
   const Generate = ({properties}) => {
 
     const handleClick = async() => {
       let lowerBound = document.getElementById('lower_bound');
       let upperBound = document.getElementById('upper_bound');
       
-      let start = lowerBound.value || 0;
-      let stop = upperBound.value || 0;
-
-      if (start > 24) {
-        handleChangeIsError(true);
-        return;
-      }
-      if (stop > 24) {
-        handleChangeIsError(true);
-        return;
-      }
-      handleChangeIsError(false);
+      let start = lowerBound.value;
+      let stop = upperBound.value;
 
       const params = {
         channel: selectedChannel,
@@ -97,7 +67,6 @@ function App() {
         <div className="text-sm text-white"> Example Description of Plot </div>
 
         <div className="pb-8 pt-4 px-8 mx-auto my-8 bg-battle-grey1 rounded-xl shadow-lg space-y-2">
-          <ErrorNotif isError={isError}></ErrorNotif>
           <div className="flex flex-row justify-left items-left">
             <div className="px-2 text-center">
               <p>Data Source:</p>
@@ -113,11 +82,11 @@ function App() {
             </div>
             <div className="px-2 text-center">
               <label>Start Time:</label>
-              <input type="number" id="lower_bound" className="bg-white border border-white text-black text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block p-0.5" placeholder="0" required></input>
+              <input type="datetime-local" id="lower_bound" className="bg-white border border-white text-black text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block p-0.5" placeholder="0" required></input>
             </div>
             <div className="px-2 text-center">
               <label>Stop Time:</label>
-              <input type="number" id="upper_bound" className="bg-white border border-white text-black text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block p-0.5" placeholder="0" required></input>
+              <input type="datetime-local" id="upper_bound" className="bg-white border border-white text-black text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block p-0.5" placeholder="0" required></input>
             </div>
             <div className="flex-grow"></div>
             <div className="px-2 text-center">
