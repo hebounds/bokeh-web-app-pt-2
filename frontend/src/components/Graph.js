@@ -1,5 +1,5 @@
-import Arguments from './Arguments'
 import Minus from './Minus'
+import PlusArgs from './PlusArgs'
 
 import React, { Component } from 'react';
 
@@ -12,9 +12,9 @@ class Graph extends Component {
   constructor() {
     super();
     this.state = {
-      selectedDataSource: "",
-      selectedRecording: "recording1",
-      selectedChannel: "Channel1",
+      selectedDataSources: "",
+      selectedRecordings: "recording1",
+      selectedChannels: "Channel1",
       isError: Array.from([
         {text:"Start and stop time are equal!", error:'false', id:'0'},
         {text:"Invalid date!", error:'false', id:'1'}
@@ -33,15 +33,15 @@ class Graph extends Component {
   };
 
   changeDataSource = (newDataSource) => {
-    this.setState({selectedDataSource: newDataSource});
+    this.setState({selectedDataSources: newDataSource});
   }
 
   changeRecording = (newRecording) => {
-    this.setState({selectedRecording: newRecording});
+    this.setState({selectedRecordings: newRecording});
   }
 
   changeChannel = (newChannel) => {
-    this.setState({selectedChannel: newChannel});
+    this.setState({selectedChannels: newChannel});
   }
   
   ErrorNotif = () => {
@@ -69,7 +69,10 @@ class Graph extends Component {
 
   Generate = ({properties}) => {
     const handleClick = async() => {
-      const { selectedDataSource, selectedRecording, selectedChannel } = this.state;
+    const { selectedDataSources, selectedRecordings, selectedChannels } = this.state;
+      console.log(selectedDataSources);
+      console.log(selectedRecordings);
+      console.log(selectedChannels);
       let lowerBound = document.getElementById('lower_bound' + this.props.id);
       let upperBound = document.getElementById('upper_bound' + this.props.id);
       
@@ -96,11 +99,11 @@ class Graph extends Component {
       }
 
       const params = {
-        channel: selectedChannel,
+        channel: selectedChannels,
         start: start,
         stop: stop,
-        dataSource: selectedDataSource,
-        recording: selectedRecording,
+        dataSource: selectedDataSources,
+        recording: selectedRecordings,
       };
 
       Axios.get("http://127.0.0.1:5000/plot1", { 
@@ -129,7 +132,7 @@ class Graph extends Component {
         <div className="pb-8 pt-4 px-8 mx-auto my-8 bg-battle-grey1 rounded-xl shadow-lg space-y-2">
           <ErrorNotif></ErrorNotif>
           <div className="flex flex-row justify-left items-left">
-            <Arguments onChanges={[changeDataSource, changeRecording, changeChannel]}></Arguments>
+            <PlusArgs onChanges={[changeDataSource, changeRecording, changeChannel]}></PlusArgs>
             <div className="px-2 text-center">
               <label>Start Time:</label>
               <input type="datetime-local" id={'lower_bound' + this.props.id} className="bg-white border border-white text-black text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block p-0.5" placeholder="0" required></input>

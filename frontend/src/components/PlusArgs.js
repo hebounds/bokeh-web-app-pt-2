@@ -13,14 +13,19 @@ class PlusArgs extends Component {
     };
   }
 
+  findPosition = (argComp) => {
+    const { components } = this.state;
+    return components.indexOf(argComp);
+  }
+
   handleAddComponent = () => {
     const { components, nextId } = this.state;
     const newComponent = <Arguments key={nextId} 
                                     id={nextId} 
                                     remove={this.handleRemoveComponent} 
-                                    onChanges={[this.props.changeDataSource, 
-                                                this.props.changeRecording, 
-                                                this.props.changeChannel]}/>;
+                                    onChanges={this.props.onChanges}
+                                    findPosition={this.findPosition}
+                                    />;
     const newId = nextId + 1;
     this.setState({
       components: [...components, newComponent],
@@ -57,7 +62,7 @@ class PlusArgs extends Component {
         <div>
           {components}
         </div>
-        <button className="p-4 rounded-full bg-battle-grey1 hover:bg-battle-grey2" onClick={this.handleAddComponent}>
+        <button className="p-4 mt-2 rounded-full bg-battle-grey1 hover:bg-battle-grey2" onClick={this.handleAddComponent}>
           <img className="invert" src={plus_icon} alt="Plus" width='20' height='20'></img>
         </button>
       </div>
@@ -65,4 +70,4 @@ class PlusArgs extends Component {
   }
 }
 
-export default Plus
+export default PlusArgs

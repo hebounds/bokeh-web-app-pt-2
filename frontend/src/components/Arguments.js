@@ -1,6 +1,8 @@
 import Dropdown from './Dropdown'
 import React, { Component } from 'react';
 
+import MinusArgs from './MinusArgs'
+
 class Arguments extends Component {
 
   constructor() {
@@ -43,6 +45,9 @@ class Arguments extends Component {
         <div className="px-2 text-center">
           <p>Channel:</p>
           <Dropdown route="channels" onChange={changeChannel} loadCondition={[selectedDataSource, selectedRecording]} properties="rounded-md text-gunmetal"/>
+        </div>
+        <div className="px-2 mt-2 text-center">
+          <MinusArgs linkedId={this.props.id} remove={this.props.remove}></MinusArgs>
         </div>
       </div>
     );
